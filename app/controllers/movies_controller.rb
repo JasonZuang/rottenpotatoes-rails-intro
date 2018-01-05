@@ -12,20 +12,28 @@ class MoviesController < ApplicationController
 
   def index
     puts "here is the output"
-    
+    puts session[:sort]
+    sess = session[:sort]
     sort = params[:sort]
-    if sort == 'title'
+    order = nil
+
+    if sort == 'title' || sess == 'title'
       @title_header = 'hilite'
     end
-    if sort == 'release_date'
+    if sort == 'release_date' || sess == 'title'
       @date_header = 'hilite'
     end
 
-    if sort
-      @movies = Movie.order(sort)
-    else
-      @movies = Movie.all
+    @movies = Movie.order(sort)
+    @all_ratings = Movie.ratings
+
+    if params[:ratings].present?
+      session[:filtered_ratings] = params[:ratings]
+      @movies = Movie.where(:rating => session[:filtered_ratings].keys)
     end
+
+
+
 
 
   end
