@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
   def index
     
     @all_ratings = Movie.ratings
-    
+    puts @all_ratings
       #puts "here is the output"
       #puts session[:sort]
       #sess = session[:sort]
@@ -39,7 +39,7 @@ class MoviesController < ApplicationController
     elsif session[:ratings]
       @selected_ratings = session[:ratings]
     else
-      @selected_ratings = Hash[@all_ratings.zip[1,1,1,1]]
+      @selected_ratings = Hash[@all_ratings.zip([1,1,1,1])]
     end
 
     sort = params[:sort]
@@ -53,7 +53,7 @@ class MoviesController < ApplicationController
       @t = 'hilite'
       @movies = Movie.order('release_date').where(rating: @selected_ratings.keys)
     elsif session[:sort]
-      redirect_to movies_path(sort: session[:sort], rating: @selected_ratings)
+      redirect_to movies_path(sort: session[:sort], rating: @selected_ratings.keys)
     else
       @movies = Movie.where(rating: @selected_ratings.keys)
     
