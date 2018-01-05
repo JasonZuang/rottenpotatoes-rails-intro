@@ -1,6 +1,6 @@
 class Movie < ActiveRecord::Base
 
 	def self.ratings
-			Movie.select(:rating).map(&:rating).uniq
-	end
+    	self.uniq.pluck(:rating).sort
+    end
 end
